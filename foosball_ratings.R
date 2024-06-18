@@ -86,3 +86,16 @@ gather_draws(m1,`b_[a-z]+`,regex=T) %>%
   theme(text=element_text(size=20,family="Roboto")) +
   scale_fill_discrete(direction=-1)+
   geom_vline(xintercept=0,linetype=2)
+
+#use postpred to create a a hypothetical match and get posterior predictions:
+post_pred %>% 
+  select(-names) %>%
+  head(1) %>% 
+  mutate_all(~0) %>%
+  mutate(chris=1,kirsten=-1,yayla=1,docky=-1) %>%
+  add_epred_draws(m1) %>%
+  ggplot(aes(
+    x=.epred
+  )) +
+  stat_halfeye()
+  
