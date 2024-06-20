@@ -18,3 +18,17 @@ cate,jasper,chris,nico,10,9,1
 chris,nico,cate,jasper,9,10,-1
 cate,chris,docky,yayla,9,10,-1
 chris,yayla,docky,kirsten,9,10,-1
+heleen,litian,cate,chris,6,10,-4
+ningkai,docky,jasper,yayla,9,10,-1
+yayla,jasper,ningkai,docky,10,9,1
+chris,yayla,ningkai,jasper,6,10,-4
+ningkai,jasper,chris,yayla,2,10,-8
+cate,kirsten,ines,yayla,6,10,-4
+ningkai,ines,chris,docky,2,10,-8
+chris,baiwei,ines,yayla,4,10,-6
+chris,zirui,ines,kirsten,1,10,-9
+ines,kirsten,cate,chris,10,4,6
+nico,kirsten,docky,yayla,10,9,1
+docky,yayla,cate,kirsten,6,10,-4
+chris,kirsten,yayla,nico,4,10,-6
+chris,nico,cate,kirsten,6,10,-4
