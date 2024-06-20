@@ -86,7 +86,7 @@ post_pred %>%
   theme(text=element_text(size=20,family="Roboto"))
 
 #pure player coefficients (probably more useful?)
-gather_draws(m1,`b_[a-z]+`,regex=T) %>% 
+gather_draws(m1,`b_[a-zš]+`,regex=T) %>% 
   separate_wider_delim(.variable,'_',names = c("b","name")) %>% 
   mutate(name = str_to_title(name)) %>% 
   ggplot(aes(
