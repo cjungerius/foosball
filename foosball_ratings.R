@@ -52,6 +52,19 @@ m1 <- player_data %>%
     backend='cmdstanr'
   )
 
+m2 <- player_data %>% 
+  brm(
+    formula,
+    data=.,
+    chains=4,iter=2000,cores=4,
+    prior=c(
+      prior(student_t(3,0,1), class="Intercept"),
+      prior(normal(0,5), class="b"),
+      prior(exponential(1), class="sigma")
+    ),
+    backend='cmdstanr'
+  )
+
 #get posterior predictions with the Intercept
 
 post_pred <- as_tibble(diag(length(player_names)))
@@ -60,6 +73,7 @@ post_pred <- post_pred %>% mutate(names=player_names)
 
 post_pred %>% 
   add_epred_draws(m1) %>%
+  mutate(names = str_to_title(names)) %>% 
   ggplot(aes(
     x=.epred,
     y=names,
@@ -74,25 +88,28 @@ post_pred %>%
 #pure player coefficients (probably more useful?)
 gather_draws(m1,`b_[a-z]+`,regex=T) %>% 
   separate_wider_delim(.variable,'_',names = c("b","name")) %>% 
+  mutate(name = str_to_title(name)) %>% 
   ggplot(aes(
     x=.value,
-    y=name,
+    y=reorder(name,.value),
     fill=name
   )) +
   stat_halfeye()+
   theme_bw()+
   xlab("Expected goal differential")+
+  ylab("Player")+
   ggtitle("Estimated effect of player") +
   theme(text=element_text(size=20,family="Roboto")) +
   scale_fill_discrete(direction=-1)+
-  geom_vline(xintercept=0,linetype=2)
+  geom_vline(xintercept=0,linetype=2) +
+  guides(fill="none")
 
 #use postpred to create a a hypothetical match and get posterior predictions:
 post_pred %>% 
   select(-names) %>%
   head(1) %>% 
   mutate_all(~0) %>%
-  mutate(chris=1,kirsten=-1,yayla=1,docky=-1) %>%
+  mutate(chris=1,nico=1,kirsten=-1,cate=-1) %>%
   add_epred_draws(m1) %>%
   ggplot(aes(
     x=.epred
