@@ -116,4 +116,20 @@ post_pred %>%
     x=.epred
   )) +
   stat_halfeye()
+
+#LCB method to get a single rating for each player weighted by confidence 
+#(seems conservative but compares well with TrueSkill)
+gather_draws(m1,`b_[a-zš]+`,regex=T) %>%
+  summarise(mu=mean(.value),sigma=sd(.value)) %>% 
+  mutate(rating = mu-3*sigma) %>% 
+  ungroup() %>% 
+  mutate(rating=scale(rating)*1000) %>% 
+  separate_wider_delim(.variable,'_',names = c("b","name")) %>%
+  mutate(name = str_to_title(name)) %>% 
+  ggplot(aes(
+    x=rating,
+    y=reorder(name,rating),
+    color=name
+  )) +
+  geom_point()
   
