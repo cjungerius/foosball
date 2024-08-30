@@ -1,0 +1,7 @@
+name: foosball
+dependencies:
+  - numpy
+  - pandas
+  - pip
+  - pip:
+    - trueskill
