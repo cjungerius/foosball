@@ -86,8 +86,9 @@ post_pred %>%
   theme(text=element_text(size=20,family="Roboto"))
 
 #pure player coefficients (probably more useful?)
-p2 <- gather_draws(m1,`b_[a-zš]+`,regex=T) %>% 
+p2 <- gather_draws(m2,`b_[a-zš]+`,regex=T) %>% 
   separate_wider_delim(.variable,'_',names = c("b","name")) %>% 
+  filter(name %in% (player_stats %>% filter(games>=10) %>% .$player)) %>% 
   mutate(name = str_to_title(name)) %>% 
   ggplot(aes(
     x=.value,
